@@ -89,6 +89,48 @@ namespace ContactsApp.Controllers
             }
         }
 
+        //Import from CSV File
+        [HttpPost("ImportCSV")]
+        public async Task<IActionResult> importCSV([FromBody]Contact contact)
+        {
+            return null;
+            //List<Contact> lista= new List<Contact>();
+
+            //System.IO.StreamReader archivo = new System.IO.StreamReader(fileLocation);
+
+            //string separador = ",";
+            //string linea;
+
+            //archivo.ReadLine();
+
+            //while ((linea = archivo.ReadLine()) != null)
+            //{
+            //    string[] fila = linea.Split(separador);
+                
+            //    Contact contact = new Contact();
+            //    contact.Nombre = Convert.ToString(fila[0]);
+            //    contact.Direccion = Convert.ToString(fila[1]);
+            //    contact.Telefono = Convert.ToString(fila[2]);
+            //    contact.CURP = Convert.ToString(fila[3]);
+            //    contact.FechaRegistro = DateTime.Now;
+            //    lista.Add(contact);
+            //}
+
+            //try
+            //{
+            //    foreach (Contact contact in importData) {
+            //        _context.Contacts.Add(contact);
+            //    }
+            //    await _context.SaveChangesAsync();
+            //    return Ok(importData);
+            //}
+            //catch(Exception ex)
+            //{
+            //    return BadRequest(ex.Message);
+            //}
+        }
+
+
         //Search methods
 
         [HttpGet("SearchById")]
@@ -176,7 +218,7 @@ namespace ContactsApp.Controllers
         }
 
         [HttpGet("SearchByTelefono")]
-        public async Task<IActionResult> SearchByTelefono(int telefono)
+        public async Task<IActionResult> SearchByTelefono(string telefono)
         {
             List<Contact> lista = new List<Contact>();
             try

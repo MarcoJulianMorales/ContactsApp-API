@@ -12,7 +12,7 @@ namespace ContactsApp.Models
         [Required]
         public string Direccion { get; set; }
         [Required]
-        public int Telefono { get; set; }
+        public string Telefono { get; set; }
         [Required]
         [StringLength(18)]
         public string CURP { get; set; }
