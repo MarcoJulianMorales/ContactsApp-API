@@ -16,10 +16,8 @@ namespace ContactsApp.Controllers
         {
             _context= context;
         }
-        public IActionResult Index()
-        {
-            return View();
-        }
+
+        //CRUD Methods
 
         [HttpGet("Table")]
         //[Authorize]
@@ -40,6 +38,7 @@ namespace ContactsApp.Controllers
         {
             try
             {
+                contact.FechaRegistro = DateTime.Now;
                 _context.Contacts.Add(contact);
                 await _context.SaveChangesAsync();
                 return Ok();
@@ -48,7 +47,7 @@ namespace ContactsApp.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpPut("{id}")]
+        [HttpPut("update")]
         public async Task<IActionResult> UpdateContact(int id, [FromBody] Contact contact)
         {
             try
@@ -68,7 +67,7 @@ namespace ContactsApp.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
+        [HttpDelete("delete")]
         public async Task<IActionResult> DeleteContact(int id)
         {
             try
@@ -85,6 +84,176 @@ namespace ContactsApp.Controllers
                 return Ok(new { message="The contact has been deleted successfully"});
 
             }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        //Search methods
+
+        [HttpGet("SearchById")]
+        public async Task<IActionResult> SearchById(int id)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.Id == id
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("SearchByNombre")]
+        public async Task<IActionResult> SearchByNombre(string nombre)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.Nombre == nombre
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("SearchByDireccion")]
+        public async Task<IActionResult> SearchByDireccion(string direccion)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.Direccion == direccion
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("SearchByTelefono")]
+        public async Task<IActionResult> SearchByTelefono(int telefono)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.Telefono == telefono
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("SearchByCurp")]
+        public async Task<IActionResult> SearchByCurp(string curp)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.CURP == curp
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet("SearchByFechaRegistro")]
+        public async Task<IActionResult> SearchByFecharegistro(DateTime fecha)
+        {
+            List<Contact> lista = new List<Contact>();
+            try
+            {
+                await using (_context)
+                {
+                    lista = (from contact in _context.Contacts
+                             where contact.FechaRegistro == fecha
+                             select new Contact
+                             {
+                                 Id = contact.Id,
+                                 CURP = contact.CURP,
+                                 Direccion = contact.Direccion,
+                                 FechaRegistro = contact.FechaRegistro,
+                                 Nombre = contact.Nombre,
+                                 Telefono = contact.Telefono
+                             }).ToList();
+                }
+                return Ok(lista);
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }
