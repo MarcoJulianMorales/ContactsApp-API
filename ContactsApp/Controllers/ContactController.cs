@@ -38,10 +38,11 @@ namespace ContactsApp.Controllers
         {
             try
             {
-                contact.FechaRegistro = DateTime.Now;
+                string fecha = DateTime.Now.ToString().Substring(0, 9);
+                contact.FechaRegistro = Convert.ToDateTime(fecha);
                 _context.Contacts.Add(contact);
                 await _context.SaveChangesAsync();
-                return Ok();
+                return Ok(contact.FechaRegistro);
             }catch(Exception ex)
             {
                 return BadRequest(ex.Message);
@@ -274,15 +275,16 @@ namespace ContactsApp.Controllers
         }
 
         [HttpGet("SearchByFechaRegistro")]
-        public async Task<IActionResult> SearchByFecharegistro(DateTime fecha)
+        public async Task<IActionResult> SearchByFecharegistro(string fecha)
         {
             List<Contact> lista = new List<Contact>();
             try
             {
+                DateTime fechabusqueda = Convert.ToDateTime(fecha);
                 await using (_context)
                 {
                     lista = (from contact in _context.Contacts
-                             where contact.FechaRegistro == fecha
+                             where contact.FechaRegistro == fechabusqueda
                              select new Contact
                              {
                                  Id = contact.Id,
